@@ -1,6 +1,21 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const PostCard = ({ post }) => {
+const router= useRouter();
+  async function handleClick(){
+    
+        
+    try {
+        await fetch(`/api/deletepost/${post.id}`, {
+            method: 'DELETE'
+        })
+        router.refresh()
+    } catch(e){
+        console.error(e)
+    }
+}
   return (
     <div className="border border-gray-900 rounded-lg p-4 mb-4 bg-black shadow-md">
       <h2 className="text-xl font-semibold">{post.title}</h2>
@@ -14,11 +29,10 @@ const PostCard = ({ post }) => {
           <p>
             <strong>Name:</strong> {post.author.name || 'N/A'}
           </p>
-          <p>
-            <strong>Email:</strong> {post.author.email || 'N/A'}
-          </p>
+          
         </div>
       )}
+      <button className="btn btn-red bg-red-500 my-5" onClick={handleClick}>DELETE</button>
     </div>
   );
 };
